@@ -21,5 +21,7 @@ int matrix_cols(MATRIX matrix);
 
 void matrix_destroy(MATRIX* pMatrix);
 
+void matrix_print(MATRIX matrix);
+
 
 #endif

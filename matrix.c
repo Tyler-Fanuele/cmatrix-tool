@@ -54,10 +54,12 @@ MATRIX matrix_init_vect(INT_VECT vect, unsigned rows, unsigned cols) {
 
 int matrix_at(MATRIX matrix, unsigned row, unsigned col) {
     Matrix* pMatrix = (Matrix*)matrix;
-    if (row > pMatrix->r && col > pMatrix->c) {
+    if (row <= pMatrix->r && col <= pMatrix->c) {
+        
+        //printf("[%d]", temp);
         return int_vect_at(pMatrix->matrix, row * col + col);
     }
-    return -20000;
+    return -2000;
 }
 
 int matrix_capacity(MATRIX matrix) {
@@ -77,4 +79,13 @@ void matrix_destroy(MATRIX* pMatrix) {
     int_vect_destroy(&phMatrix->matrix);
     free(phMatrix);
     *pMatrix = NULL;
+}
+
+void matrix_print(MATRIX matrix) {
+     Matrix* pMatrix = (Matrix*)matrix;
+     for (int i = 0; i < pMatrix->r; i++) {
+         for (int j = 0; j < pMatrix->c; j++) {
+             printf(" %d ", matrix_at(pMatrix, i, j));
+         }
+     }
 }
