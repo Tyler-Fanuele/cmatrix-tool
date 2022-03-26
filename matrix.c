@@ -52,12 +52,22 @@ MATRIX matrix_init_vect(INT_VECT vect, unsigned rows, unsigned cols) {
     return pMatrix;
 }
 
+MATRIX matrix_init_arr(int* arr, unsigned rows, unsigned cols) {
+    Matrix* pMatrix = (Matrix*)malloc(sizeof(Matrix));
+    if (pMatrix) {
+        pMatrix->r = rows;
+        pMatrix->c = cols;
+        pMatrix->matrix = int_vect_init_arr(arr, pMatrix->r * pMatrix->c);
+    }
+    return pMatrix;
+}
+
 int matrix_at(MATRIX matrix, unsigned row, unsigned col) {
     Matrix* pMatrix = (Matrix*)matrix;
     if (row <= pMatrix->r && col <= pMatrix->c) {
         
         //printf("[%d]", temp);
-        return int_vect_at(pMatrix->matrix, row * col + col);
+        return int_vect_at(pMatrix->matrix, row * pMatrix->c + col);
     }
     return -2000;
 }
@@ -87,5 +97,16 @@ void matrix_print(MATRIX matrix) {
          for (int j = 0; j < pMatrix->c; j++) {
              printf(" %d ", matrix_at(pMatrix, i, j));
          }
+         printf("\n");
+     }
+}
+
+void matrix_print_debug(MATRIX matrix) {
+     Matrix* pMatrix = (Matrix*)matrix;
+     for (int i = 0; i < pMatrix->r; i++) {
+         for (int j = 0; j < pMatrix->c; j++) {
+             printf(" %d (%d, %d)", matrix_at(pMatrix, i, j), i, j);
+         }
+         printf("\n");
      }
 }

@@ -11,6 +11,8 @@ MATRIX matrix_init(unsigned rows, unsigned cols);
 
 MATRIX matrix_init_vect(INT_VECT vect, unsigned rows, unsigned cols);
 
+MATRIX matrix_init_arr(int* arr, unsigned rows, unsigned cols);
+
 int matrix_at(MATRIX matrix, unsigned row, unsigned col);
 
 int matrix_capacity(MATRIX matrix);
@@ -22,6 +24,8 @@ int matrix_cols(MATRIX matrix);
 void matrix_destroy(MATRIX* pMatrix);
 
 void matrix_print(MATRIX matrix);
+
+void matrix_print_debug(MATRIX matrix);
 
 
 #endif
