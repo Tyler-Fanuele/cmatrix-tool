@@ -1,0 +1,8 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/tyler/Git/cmatrix-tool'
+gcc -Werror -Wall -pedantic -c main.c
+gcc -Werror -Wall -pedantic -c matrix.c
+gcc -Werror -Wall -pedantic -c int_vect.c
+gcc -Werror -Wall -pedantic -o matrix_driver main.o matrix.o int_vect.o
+make: Leaving directory `/Users/tyler/Git/cmatrix-tool'
+ 

@@ -25,6 +25,7 @@ MATRIX matrix_init_default() {
     return pMatrix;
 }
 
+
 MATRIX matrix_init(unsigned rows, unsigned cols) {
     Matrix* pMatrix = (Matrix*)malloc(sizeof(Matrix));
     if (pMatrix != NULL) {

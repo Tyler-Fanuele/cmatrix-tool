@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/matrix_driver",
-            "args": [],
+            "args": ["2 2 2 2 *"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
