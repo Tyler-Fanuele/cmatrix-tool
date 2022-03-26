@@ -118,7 +118,7 @@ int int_vect_at(INT_VECT vect, int index) {
     }
     return -200000;
     */
-   //printf(" (%d | %d) ", index, pVect->data[index]);
+   //printf(" (%d | %d) \n", index, pVect->data[index]);
    return pVect->data[index];
 }
 

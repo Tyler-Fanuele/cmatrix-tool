@@ -17,7 +17,7 @@ MATRIX matrix_init_default() {
         pMatrix->c = 1;
         pMatrix->matrix = int_vect_init(pMatrix->r * pMatrix->c);
         if (pMatrix->matrix == NULL) {
-            //int_vect_destroy(pMatrix->matrix);
+            // int_vect_destroy(pMatrix->matrix);
             free(pMatrix);
             return NULL;
         }
@@ -65,24 +65,19 @@ MATRIX matrix_init_arr(int* arr, unsigned rows, unsigned cols) {
 int matrix_at(MATRIX matrix, unsigned row, unsigned col) {
     Matrix* pMatrix = (Matrix*)matrix;
     if (row <= pMatrix->r && col <= pMatrix->c) {
-        
-        //printf("[%d]", temp);
+        // printf("[%d]", temp);
         return int_vect_at(pMatrix->matrix, row * pMatrix->c + col);
     }
     return -2000;
 }
 
 int matrix_capacity(MATRIX matrix) {
-    return ((Matrix*) matrix)->c * ((Matrix*) matrix)->r;
+    return ((Matrix*)matrix)->c * ((Matrix*)matrix)->r;
 }
 
-int matrix_rows(MATRIX matrix) {
-    return ((Matrix*) matrix)->r;
-}
+int matrix_rows(MATRIX matrix) { return ((Matrix*)matrix)->r; }
 
-int matrix_cols(MATRIX matrix) {
-    return ((Matrix*) matrix)->c;
-}
+int matrix_cols(MATRIX matrix) { return ((Matrix*)matrix)->c; }
 
 void matrix_destroy(MATRIX* pMatrix) {
     Matrix* phMatrix = (Matrix*)*pMatrix;
@@ -92,33 +87,36 @@ void matrix_destroy(MATRIX* pMatrix) {
 }
 
 void matrix_print(MATRIX matrix) {
-     Matrix* pMatrix = (Matrix*)matrix;
-     for (int i = 0; i < pMatrix->r; i++) {
-         for (int j = 0; j < pMatrix->c; j++) {
-             printf(" %d ", matrix_at(pMatrix, i, j));
-         }
-         printf("\n");
-     }
-     printf("\n");
+    Matrix* pMatrix = (Matrix*)matrix;
+    for (int i = 0; i < pMatrix->r; i++) {
+        for (int j = 0; j < pMatrix->c; j++) {
+            printf(" %3d ", matrix_at(pMatrix, i, j));
+        }
+        printf("\n");
+    }
+    printf("\n");
 }
 
 void matrix_print_debug(MATRIX matrix) {
-     Matrix* pMatrix = (Matrix*)matrix;
-     for (int i = 0; i < pMatrix->r; i++) {
-         for (int j = 0; j < pMatrix->c; j++) {
-             printf(" %d (%d, %d)", matrix_at(pMatrix, i, j), i, j);
-         }
-         printf("\n");
-     }
+    Matrix* pMatrix = (Matrix*)matrix;
+    for (int i = 0; i < pMatrix->r; i++) {
+        for (int j = 0; j < pMatrix->c; j++) {
+            printf(" %3d (%d, %d)", matrix_at(pMatrix, i, j), i, j);
+        }
+        printf("\n");
+    }
 }
 
-MATRIX matrix_add(MATRIX right, MATRIX left) {
+// matrix math section
+
+MATRIX matrix_init_add(MATRIX right, MATRIX left) {
     Matrix* pRight = (Matrix*)right;
     Matrix* pLeft = (Matrix*)left;
     Matrix* pMatrix = (Matrix*)malloc(sizeof(Matrix));
 
-    if(pRight->r != pLeft->r || pRight->c != pLeft->c) {
+    if (pRight->r != pLeft->r || pRight->c != pLeft->c) {
         printf("Matrix: Add: matrix not inline\n");
+        free(pMatrix);
         exit(1);
     }
 
@@ -127,12 +125,118 @@ MATRIX matrix_add(MATRIX right, MATRIX left) {
 
     int* data = (int*)malloc(sizeof(int) * (pMatrix->r * pMatrix->c));
 
+    if (!data) {
+        free(pMatrix);
+    }
+
     for (int i = 0; i < pMatrix->c * pMatrix->r; i++) {
-        data[i] = int_vect_at(pRight->matrix, i) + int_vect_at(pLeft->matrix, i);
+        data[i] =
+            int_vect_at(pRight->matrix, i) + int_vect_at(pLeft->matrix, i);
     }
 
     pMatrix->matrix = int_vect_init_arr(data, pMatrix->r * pMatrix->c);
 
     free(data);
     return pMatrix;
+}
+
+MATRIX matrix_init_subtract(MATRIX right, MATRIX left) {
+    Matrix* pRight = (Matrix*)right;
+    Matrix* pLeft = (Matrix*)left;
+    Matrix* pMatrix = (Matrix*)malloc(sizeof(Matrix));
+
+    if (pRight->r != pLeft->r || pRight->c != pLeft->c) {
+        printf("Matrix: Add: matrix not inline\n");
+        free(pMatrix);
+        exit(1);
+    }
+
+    pMatrix->r = pRight->r;
+    pMatrix->c = pRight->c;
+
+    int* data = (int*)malloc(sizeof(int) * (pMatrix->r * pMatrix->c));
+
+    if (!data) {
+        free(pMatrix);
+    }
+
+    for (int i = 0; i < pMatrix->c * pMatrix->r; i++) {
+        data[i] =
+            int_vect_at(pRight->matrix, i) - int_vect_at(pLeft->matrix, i);
+    }
+
+    pMatrix->matrix = int_vect_init_arr(data, pMatrix->r * pMatrix->c);
+
+    free(data);
+    return pMatrix;
+}
+
+MATRIX matrix_init_multply(MATRIX right, MATRIX left) {
+    Matrix* pRight = (Matrix*)right;
+    Matrix* pLeft = (Matrix*)left;
+    Matrix* pMatrix = (Matrix*)malloc(sizeof(Matrix));
+
+    // printf ("%d, %d\n", pRight->c, pRight->r);
+    if (pRight->c != pLeft->r) {
+        free(pMatrix);
+        printf("Matrix: Multply: matrix out of scale\n");
+        exit(1);
+    }
+
+    pMatrix->c = pLeft->c;
+    pMatrix->r = pRight->r;
+
+    printf ("test %d, %d\n", pMatrix->c, pMatrix->r);
+
+    int* data = (int*)malloc(sizeof(int) * (pMatrix->c * pMatrix->r));
+
+    for (int i = 0; i < pRight->r; i++) {
+        for (int j = 0; j < pLeft->c; j++) {
+            for (int k = 0; k < pLeft->r; k++) {
+                data[i * pMatrix->c + j] +=
+                    matrix_at(pRight, i,k) *
+                    matrix_at(pLeft, k, j);
+            }
+        }
+    }
+
+    pMatrix->matrix = int_vect_init_arr(data, pMatrix->c * pMatrix->r);
+
+    free(data);
+    return pMatrix;
+}
+
+MATRIX matrix_init_scalar(MATRIX right, MATRIX left) {
+    Matrix* pRight = (Matrix*)right;
+    Matrix* pLeft = (Matrix*)left;
+    Matrix* pMatrix = (Matrix*)malloc(sizeof(Matrix));
+
+    if (pRight->r != pLeft->r || pRight->c != pLeft->c) {
+        printf("Matrix: Add: matrix not inline\n");
+        free(pMatrix);
+        exit(1);
+    }
+
+    pMatrix->r = pRight->r;
+    pMatrix->c = pRight->c;
+
+    int* data = (int*)malloc(sizeof(int) * (pMatrix->r * pMatrix->c));
+
+    if (!data) {
+        free(pMatrix);
+    }
+
+    for (int i = 0; i < pMatrix->c * pMatrix->r; i++) {
+        data[i] =
+            int_vect_at(pRight->matrix, i) * int_vect_at(pLeft->matrix, i);
+    }
+
+    pMatrix->matrix = int_vect_init_arr(data, pMatrix->r * pMatrix->c);
+
+    free(data);
+    return pMatrix;
+}
+
+MATRIX matrix_math(MATRIX (*function)(MATRIX, MATRIX), MATRIX right, MATRIX left) {
+    return function(right, left);
 }
