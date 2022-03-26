@@ -36,6 +36,24 @@ INT_VECT int_vect_init(int capacity) {
     return pVect;
 }
 
+INT_VECT int_vect_init_arr(int* arr, int capacity) {
+    Int_vect* pVect = (Int_vect*)malloc(sizeof(Int_vect));
+    if (pVect != NULL) {
+        pVect->data = (int*)malloc(sizeof(int) * capacity);
+        pVect->size = 0;
+        pVect->capacity = capacity;
+        if (pVect->data == NULL) {
+            printf("Vector: error array init\n");
+            exit(1);
+        }
+        for (int i = 0; i < pVect->capacity; i++) {
+            pVect->data[i] = arr[i];
+            pVect->size++;
+        }
+    }
+    return pVect;
+}
+
 INT_VECT int_vect_init_copy(INT_VECT data) {
     Int_vect* pVect = (Int_vect*)malloc(sizeof(Int_vect));
     Int_vect* pData = (Int_vect*)data;

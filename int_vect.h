@@ -19,6 +19,8 @@ int int_vect_size(INT_VECT vect); // returns the size of the vector
 
 int int_vect_capacity(INT_VECT vect); // returns the capacity of the vector
 
+INT_VECT int_vect_init_arr(int* arr, int capacity);
+
 int int_vect_at(INT_VECT vect, int index); // returns the int at the index if in range
 
 void int_vect_destroy(INT_VECT* vect); // frees the vector

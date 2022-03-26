@@ -60,6 +60,18 @@ int matrix_at(MATRIX matrix, unsigned row, unsigned col) {
     return -20000;
 }
 
+int matrix_capacity(MATRIX matrix) {
+    return ((Matrix*) matrix)->c * ((Matrix*) matrix)->r;
+}
+
+int matrix_rows(MATRIX matrix) {
+    return ((Matrix*) matrix)->r;
+}
+
+int matrix_cols(MATRIX matrix) {
+    return ((Matrix*) matrix)->c;
+}
+
 void matrix_destroy(MATRIX* pMatrix) {
     Matrix* phMatrix = (Matrix*)*pMatrix;
     int_vect_destroy(&phMatrix->matrix);
