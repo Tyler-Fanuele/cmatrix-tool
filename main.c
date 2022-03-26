@@ -4,19 +4,18 @@
 #include "matrix.h"
 
 int main(int argc, char** argv) {
-    //INT_VECT vect = int_vect_init(2);
     int arr[4] = {1, 2, 3, 4};
-    //INT_VECT vect = int_vect_init_arr(arr, 4);
-    //printf("%d\n", int_vect_size(vect));
-    
-    //int_vect_push(vect, 1);
-    //int_vect_push(vect, 2);
+    int arr2[4] = {2, 2, 2, 2};
 
-    //MATRIX matrix = matrix_init_vect(vect, 2, 2);
     MATRIX matrix = matrix_init_arr(arr, 2, 2);
+    MATRIX matrix2 = matrix_init_arr(arr2, 2, 2);
+    MATRIX matrix3 = matrix_add(matrix, matrix2);
     matrix_print(matrix);
+    matrix_print(matrix2);
+    matrix_print(matrix3);
 
-    //int_vect_destroy(&vect);
     matrix_destroy(&matrix);
+    matrix_destroy(&matrix2);
+    matrix_destroy(&matrix3);
     return 0;
 }

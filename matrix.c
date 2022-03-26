@@ -99,6 +99,7 @@ void matrix_print(MATRIX matrix) {
          }
          printf("\n");
      }
+     printf("\n");
 }
 
 void matrix_print_debug(MATRIX matrix) {
@@ -109,4 +110,29 @@ void matrix_print_debug(MATRIX matrix) {
          }
          printf("\n");
      }
+}
+
+MATRIX matrix_add(MATRIX right, MATRIX left) {
+    Matrix* pRight = (Matrix*)right;
+    Matrix* pLeft = (Matrix*)left;
+    Matrix* pMatrix = (Matrix*)malloc(sizeof(Matrix));
+
+    if(pRight->r != pLeft->r || pRight->c != pLeft->c) {
+        printf("Matrix: Add: matrix not inline\n");
+        exit(1);
+    }
+
+    pMatrix->r = pRight->r;
+    pMatrix->c = pRight->c;
+
+    int* data = (int*)malloc(sizeof(int) * (pMatrix->r * pMatrix->c));
+
+    for (int i = 0; i < pMatrix->c * pMatrix->r; i++) {
+        data[i] = int_vect_at(pRight->matrix, i) + int_vect_at(pLeft->matrix, i);
+    }
+
+    pMatrix->matrix = int_vect_init_arr(data, pMatrix->r * pMatrix->c);
+
+    free(data);
+    return pMatrix;
 }

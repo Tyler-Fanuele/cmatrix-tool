@@ -5,27 +5,31 @@
 
 typedef void* MATRIX;
 
-MATRIX matrix_init_default();
+MATRIX matrix_init_default(); // default constructor
 
-MATRIX matrix_init(unsigned rows, unsigned cols);
+MATRIX matrix_init(unsigned rows, unsigned cols); // value constructor
 
-MATRIX matrix_init_vect(INT_VECT vect, unsigned rows, unsigned cols);
+MATRIX matrix_init_vect(INT_VECT vect, unsigned rows, unsigned cols); // vector constructor
 
-MATRIX matrix_init_arr(int* arr, unsigned rows, unsigned cols);
+MATRIX matrix_init_arr(int* arr, unsigned rows, unsigned cols); // array constructor
 
-int matrix_at(MATRIX matrix, unsigned row, unsigned col);
+int matrix_at(MATRIX matrix, unsigned row, unsigned col); // returns the value at the row and col specified
 
-int matrix_capacity(MATRIX matrix);
+int matrix_capacity(MATRIX matrix); // returns rows * cols
 
-int matrix_rows(MATRIX matrix);
+int matrix_rows(MATRIX matrix); // returns rows
 
-int matrix_cols(MATRIX matrix);
+int matrix_cols(MATRIX matrix); // returns cols
 
-void matrix_destroy(MATRIX* pMatrix);
+void matrix_destroy(MATRIX* pMatrix); // destructor
 
-void matrix_print(MATRIX matrix);
+void matrix_print(MATRIX matrix); // prints the matrix in format
 
-void matrix_print_debug(MATRIX matrix);
+void matrix_print_debug(MATRIX matrix); // prints the matrix with the cords in format
+
+// matrix math section
+
+MATRIX matrix_add(MATRIX right, MATRIX left);
 
 
 #endif
